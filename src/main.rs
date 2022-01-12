@@ -6,15 +6,12 @@ use std::path::Path;
 
 
 fn main() {
-    println!("Hello, world!");
-
     //get file name from arg
     let mut args: Vec<String> = env::args().collect();
     let filename = args.pop().unwrap();
 
+    //create path
     let path = Path::new(&filename);
-
-    println!("{:?}", path);
 
     //get stream
     //fetch text
@@ -30,7 +27,7 @@ fn main() {
     let mut out: String = String::new();
 
     for line in split_code {
-        let mut new_line:String;
+        let new_line:String;
 
         if line.len() <= 80 { 
             new_line = line.to_string(); 
@@ -46,5 +43,12 @@ fn main() {
 
     //save
 
-    fs::write(&path, out.as_bytes());
+    let res = fs::write(&path, out.as_bytes());
+    
+
+    //analyze
+    match res {
+        Err(error) => println!("håkan error {:?}", error),
+        _ => ()
+    }
 }
